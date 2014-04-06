@@ -7,7 +7,7 @@ using SQLite;
 
 namespace Phonograph.Model
 {
-    class PhonographDatabase : SQLiteConnection
+    public class PhonographDatabase : SQLiteConnection
     {
         public PhonographDatabase(string path)
             : base(path)
