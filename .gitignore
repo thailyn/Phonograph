@@ -1,0 +1,8 @@
+*.suo
+*.csproj.user
+NuGet.exe
+packages/
+bin/
+obj/
+x64/
+x86/
