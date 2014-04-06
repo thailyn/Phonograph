@@ -2,12 +2,35 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    >
-<Button  
-    android:id="@+id/MyButton"
-    android:layout_width="fill_parent" 
-    android:layout_height="wrap_content" 
-    android:text="@string/Hello"
-    />
+    android:layout_height="fill_parent">
+    <Button
+        android:id="@+id/RefreshButton"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/RefreshButton" />
+    <TableLayout
+        android:id="@+id/PlaysTable"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:stretchColumns="0">
+        <TableRow>
+            <TextView
+                android:layout_column="0"
+                android:text="Track"
+                android:padding="3dip" />
+            <TextView
+                android:layout_column="1"
+                android:text="Artist"
+                android:padding="3dip" />
+            <TextView
+                android:text="Album"
+                android:padding="3dip" />
+            <TextView
+                android:text="Source"
+                android:padding="3dip" />
+            <TextView
+                android:text="Time"
+                android:padding="3dip" />
+        </TableRow>
+    </TableLayout>
 </LinearLayout>
