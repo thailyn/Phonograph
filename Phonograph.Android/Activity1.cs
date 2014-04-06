@@ -7,6 +7,8 @@ using Android.Views;
 using Android.Widget;
 using Android.OS;
 
+using Phonograph.Model;
+
 namespace Phonograph.Android
 {
     [Activity(Label = "Phonograph.Android", MainLauncher = true, Icon = "@drawable/icon")]
@@ -23,7 +25,42 @@ namespace Phonograph.Android
 
             // Get our button from the layout resource,
             // and attach an event to it
-            Button button = FindViewById<Button>(Resource.Id.MyButton);
+            Button button = FindViewById<Button>(Resource.Id.RefreshButton);
+            TableLayout playsTable = FindViewById<TableLayout>(Resource.Id.PlaysTable);
+
+            string databasePath = System.IO.Path.Combine(System.Environment.GetFolderPath(
+                System.Environment.SpecialFolder.Personal), "database.db");
+            var pdb = new Phonograph.Model.PhonographDatabase(databasePath);
+            var plays = from p in pdb.Table<Play>()
+                        join t in pdb.Table<Track>() on p.TrackId equals t.Id
+                        join a in pdb.Table<Album>() on t.AlbumId equals a.Id
+                        join s in pdb.Table<Source>() on p.SourceId equals s.Id
+                        select new
+                        {
+                            p.Id,
+                            TrackTitle = t.Title,
+                            AlbumTitle = a.Title,
+                            SourceName = s.Name,
+                            p.Time
+                        };
+
+            foreach(var p in plays)
+            {
+                TableRow newRow = new TableRow(this);
+                TextView tvTrack = new TextView(this);
+                tvTrack.SetText(p.TrackTitle, TextView.BufferType.Normal);
+                TextView tvAlbum = new TextView(this);
+                tvTrack.SetText(p.AlbumTitle, TextView.BufferType.Normal);
+                TextView tvSource = new TextView(this);
+                tvTrack.SetText(p.SourceName, TextView.BufferType.Normal);
+                TextView tvTime = new TextView(this);
+                tvTrack.SetText(p.Time.ToString(), TextView.BufferType.Normal);
+
+                playsTable.AddView(tvTrack);
+                playsTable.AddView(tvAlbum);
+                playsTable.AddView(tvSource);
+                playsTable.AddView(tvTime);
+            }
 
             button.Click += delegate { button.Text = string.Format("{0} clicks!", count++); };
         }
