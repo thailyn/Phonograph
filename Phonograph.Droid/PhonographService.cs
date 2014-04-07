@@ -16,6 +16,8 @@ namespace Phonograph.Droid
     [IntentFilter(new String[] { "com.zodiac.PhonographService" })]
     class PhonographService : Service
     {
+        private IBinder _binder;
+
         public override StartCommandResult OnStartCommand(Intent intent, StartCommandFlags flags, int startId)
         {
             Android.Util.Log.Debug ("PhonographService", "PhonographService started");
@@ -27,7 +29,23 @@ namespace Phonograph.Droid
 
         public override IBinder OnBind(Intent intent)
         {
-            throw new NotImplementedException();
+            _binder = new PhonographServiceBinder(this);
+            return _binder;
+        }
+
+        public class PhonographServiceBinder : Binder
+        {
+            private PhonographService _service;
+
+            public PhonographServiceBinder(PhonographService service)
+            {
+                _service = service;
+            }
+
+            public PhonographService GetPhonographService()
+            {
+                return _service;
+            }
         }
     }
 }
