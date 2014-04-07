@@ -44,6 +44,7 @@
     <Compile Include="Model\Artist.cs" />
     <Compile Include="Model\PhonographDatabase.cs" />
     <Compile Include="Model\Play.cs" />
+    <Compile Include="Model\PlaysView.cs" />
     <Compile Include="Model\Source.cs" />
     <Compile Include="Model\Track.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

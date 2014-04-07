@@ -31,6 +31,7 @@ namespace Phonograph.Android
             string databasePath = System.IO.Path.Combine(System.Environment.GetFolderPath(
                 System.Environment.SpecialFolder.Personal), "database.db");
             var pdb = new Phonograph.Model.PhonographDatabase(databasePath);
+            /*
             var plays = from p in pdb.Table<Play>()
                         join t in pdb.Table<Track>() on p.TrackId equals t.Id
                         join a in pdb.Table<Album>() on t.AlbumId equals a.Id
@@ -43,6 +44,13 @@ namespace Phonograph.Android
                             SourceName = s.Name,
                             p.Time
                         };
+             * */
+            var plays = pdb.Query<PlaysView>(
+@"select p.id as ""Id"", t.title as ""TrackTitle"", a.title as ""AlbumTitle"", s.name as ""SourceName"", p.time as ""Time""
+from plays p
+inner join tracks t on p.track_id = t.id
+inner join albums a on t.album_id = a.id
+inner join sources s on p.source_id = s.id");
 
             foreach(var p in plays)
             {

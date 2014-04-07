@@ -65,6 +65,9 @@
     <Compile Include="..\Phonograph\Model\Play.cs">
       <Link>Model\Play.cs</Link>
     </Compile>
+    <Compile Include="..\Phonograph\Model\PlaysView.cs">
+      <Link>Model\PlaysView.cs</Link>
+    </Compile>
     <Compile Include="..\Phonograph\Model\Source.cs">
       <Link>Model\Source.cs</Link>
     </Compile>
@@ -94,7 +97,7 @@
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties ProjectLinkReference="a41f9775-c765-4c37-904f-6b093414f02b" ProjectLinkerExcludeFilter="\\?desktop(\\.*)?$;\\?silverlight(\\.*)?$;\.desktop;\.silverlight;\.xaml;^service references(\\.*)?$;\.clientconfig;^web references(\\.*)?$" />
+      <UserProperties ProjectLinkerExcludeFilter="\\?desktop(\\.*)?$;\\?silverlight(\\.*)?$;\.desktop;\.silverlight;\.xaml;^service references(\\.*)?$;\.clientconfig;^web references(\\.*)?$" ProjectLinkReference="a41f9775-c765-4c37-904f-6b093414f02b" />
     </VisualStudio>
   </ProjectExtensions>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
