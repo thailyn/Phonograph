@@ -12,14 +12,15 @@ namespace Phonograph.Model
         public PhonographDatabase(string path)
             : base(path)
         {
-            if (!System.IO.File.Exists(path))
-            {
-                CreateTable<Album>();
-                CreateTable<Artist>();
-                CreateTable<Play>();
-                CreateTable<Source>();
-                CreateTable<Track>();
-            }
+            // The database file is created by the base class, so it always
+            // exists by this point.  It is unclear if "creating" the tables
+            // here overwrites any existing data.
+
+            CreateTable<Album>();
+            CreateTable<Artist>();
+            CreateTable<Play>();
+            CreateTable<Source>();
+            CreateTable<Track>();
         }
     }
 }
