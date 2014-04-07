@@ -71,6 +71,8 @@ inner join sources s on p.source_id = s.id");
             }
 
             button.Click += delegate { button.Text = string.Format("{0} clicks!", count++); };
+
+            StartService(new Intent(this, typeof(PhonographService)));
         }
     }
 }
