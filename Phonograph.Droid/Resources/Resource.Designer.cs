@@ -9,9 +9,9 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: global::Android.Runtime.ResourceDesignerAttribute("Phonograph.Android.Resource", IsApplication=true)]
+[assembly: global::Android.Runtime.ResourceDesignerAttribute("Phonograph.Droid.Resource", IsApplication=true)]
 
-namespace Phonograph.Android
+namespace Phonograph.Droid
 {
 	
 	

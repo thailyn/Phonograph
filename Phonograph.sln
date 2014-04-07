@@ -5,7 +5,7 @@ VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Phonograph", "Phonograph\Phonograph.csproj", "{A41F9775-C765-4C37-904F-6B093414F02B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Phonograph.Android", "Phonograph.Android\Phonograph.Android.csproj", "{A0A7A688-9E0A-48D5-B8C3-4013C508FE09}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Phonograph.Droid", "Phonograph.Droid\Phonograph.Droid.csproj", "{A0A7A688-9E0A-48D5-B8C3-4013C508FE09}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

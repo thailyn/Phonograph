@@ -9,7 +9,7 @@ using Android.OS;
 
 using Phonograph.Model;
 
-namespace Phonograph.Android
+namespace Phonograph.Droid
 {
     [Activity(Label = "Phonograph.Android", MainLauncher = true, Icon = "@drawable/icon")]
     public class Activity1 : Activity
