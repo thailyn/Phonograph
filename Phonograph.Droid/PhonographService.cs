@@ -10,6 +10,8 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 
+using Phonograph.Model;
+
 namespace Phonograph.Droid
 {
     [Service]
@@ -83,6 +85,121 @@ namespace Phonograph.Droid
                 _sinceLastUpdateTimer = new System.Diagnostics.Stopwatch();
             }
 
+            public void RecordPlay(string trackTitle, string albumTitle, string artistName, DateTime timePlayed,
+                string sourceName)
+            {
+                string databasePath = System.IO.Path.Combine(System.Environment.GetFolderPath(
+                    System.Environment.SpecialFolder.Personal), "database.db");
+                var pdb = new Phonograph.Model.PhonographDatabase(databasePath);
+
+                Artist artist = null;
+                try
+                {
+                    artist = (from a in pdb.Table<Artist>()
+                              where a.Name == artistName
+                              select a).FirstOrDefault();
+                    if (artist == null)
+                    {
+                        artist = new Artist
+                        {
+                            Name = artistName,
+                            SortName = artistName
+                        };
+                        var id = pdb.Insert(artist);
+                    }
+                }
+                catch (SQLite.SQLiteException ex)
+                {
+                    Android.Util.Log.Error("PHONOGRAPH", "SQLite Exception when fetching artist: " + ex.Message);
+                    return;
+                }
+
+                Album album = null;
+                try
+                {
+                    album = (from a in pdb.Table<Album>()
+                             where a.Title == albumTitle
+                             where a.AlbumArtistId == artist.Id
+                             select a).FirstOrDefault();
+                    if (album == null)
+                    {
+                        album = new Album
+                        {
+                            Title = albumTitle,
+                            SortTitle = albumTitle,
+                            AlbumArtistId = artist.Id
+                        };
+                        var id = pdb.Insert(album);
+                    }
+                }
+                catch (SQLite.SQLiteException ex)
+                {
+                    Android.Util.Log.Error("PHONOGRAPH", "SQLite Exception when fetching album: " + ex.Message);
+                    return;
+                }
+
+                Track track = null;
+                try
+                {
+                    track = (from t in pdb.Table<Track>()
+                             where t.Title == trackTitle
+                             where t.ArtistId == artist.Id
+                             where t.AlbumId == album.Id
+                             select t).FirstOrDefault();
+                    if (track == null)
+                    {
+                        track = new Track
+                        {
+                            Title = trackTitle,
+                            AlbumId = album.Id,
+                            ArtistId = artist.Id
+                        };
+                        track.Id = pdb.Insert(track);
+                    }
+                }
+                catch (SQLite.SQLiteException ex)
+                {
+                    Android.Util.Log.Error("PHONOGRAPH", "SQLite Exception when fetching track: " + ex.Message);
+                    return;
+                }
+
+                Source source = null;
+                try
+                {
+                    source = (from s in pdb.Table<Source>()
+                              where s.Name == sourceName
+                              select s).FirstOrDefault();
+                    if (source == null)
+                    {
+                        source = new Source
+                        {
+                            Name = sourceName,
+                        };
+                        source.Id = pdb.Insert(source);
+                    }
+                }
+                catch (SQLite.SQLiteException ex)
+                {
+                    Android.Util.Log.Error("PHONOGRAPH", "SQLite Exception when fetching source: " + ex.Message);
+                    return;
+                }
+
+                try
+                {
+                    var playId = pdb.Insert(new Play
+                    {
+                        TrackId = track.Id,
+                        SourceId = source.Id,
+                        Time = timePlayed
+                    });
+                }
+                catch (SQLite.SQLiteException ex)
+                {
+                    Android.Util.Log.Error("PHONOGRAPH", "SQLite Exception when inserting play: " + ex.Message);
+                    return;
+                }
+            }
+
             public void UpdateState(Context context, string currentTrackTitle, string currentAlbumTitle,
                 string currentArtistName, long currentPosition, long duration, bool isPlaying, long lastTrackPosition,
                 string sourceName)
@@ -114,6 +231,9 @@ namespace Phonograph.Droid
                         message = "Would record last play here.";
                         Android.Util.Log.Debug("PHONOGRAPH", message);
                         Toast.MakeText(context, message, ToastLength.Short).Show();
+
+                        RecordPlay(_currentTrackTitle, _currentAlbumTitle, _currentArtistName, DateTime.UtcNow,
+                            sourceName);
                     }
                     else
                     {
@@ -150,6 +270,9 @@ namespace Phonograph.Droid
                             _cumulativePlayedTime, (double)_currentDuration * 0.9);
                         Android.Util.Log.Debug("PHONOGRAPH", message);
                         Toast.MakeText(context, message, ToastLength.Short).Show();
+
+                        RecordPlay(_currentTrackTitle, _currentAlbumTitle, _currentArtistName, DateTime.UtcNow,
+                            sourceName);
 
                         _cumulativePlayedTime = 0;
                     }
