@@ -84,7 +84,8 @@ namespace Phonograph.Droid
             }
 
             public void UpdateState(Context context, string currentTrackTitle, string currentAlbumTitle,
-                string currentArtistName, long currentPosition, long duration, bool isPlaying, long lastTrackPosition)
+                string currentArtistName, long currentPosition, long duration, bool isPlaying, long lastTrackPosition,
+                string sourceName)
             {
                 string message;
 
@@ -199,6 +200,7 @@ namespace Phonograph.Droid
         // total needed to record it, or add the difference in what was seeked.
         public class PhonographServiceGoogleMusicBroadcastReceiver : PhonographServiceBaseBroadcastReceiver
         {
+            string _source = "Google Music";
             List<string> _dumpedCollections = new List<string>();
 
             public PhonographServiceGoogleMusicBroadcastReceiver()
@@ -251,7 +253,8 @@ namespace Phonograph.Droid
                 //Toast.MakeText(context, string.Format("{0}: {1}, {2}, {3}, {4}/{5}, {6}",
                 //    action, artist, album, track, position, duration, isPlaying), ToastLength.Long).Show();
 
-                UpdateState(context, track, album, artist, position, duration, isPlaying, lastTrackPosition);
+                UpdateState(context, track, album, artist, position, duration, isPlaying, lastTrackPosition,
+                    _source);
             }
         }
     }
