@@ -46,10 +46,12 @@ namespace Phonograph.Droid
                         };
              * */
             var plays = pdb.Query<PlaysView>(
-@"select p.id as ""Id"", t.title as ""TrackTitle"", a.title as ""AlbumTitle"", s.name as ""SourceName"", p.time as ""Time""
+@"select p.id as ""Id"", t.title as ""TrackTitle"", a.title as ""AlbumTitle"",
+    ar.name as ""ArtistName"", s.name as ""SourceName"", p.time as ""Time""
 from plays p
 inner join tracks t on p.track_id = t.id
 inner join albums a on t.album_id = a.id
+inner join artists ar on t.artist_id = ar.id
 inner join sources s on p.source_id = s.id");
 
             foreach(var p in plays)
