@@ -19,9 +19,11 @@ namespace Phonograph.Droid
         private IBinder _binder;
         private PhonographServiceGoogleMusicBroadcastReceiver _receiver;
 
-        public override StartCommandResult OnStartCommand(Intent intent, StartCommandFlags flags, int startId)
+        public override void OnCreate()
         {
-            Android.Util.Log.Debug ("PhonographService", "PhonographService started");
+            base.OnCreate();
+
+            Android.Util.Log.Debug("PhonographService", "PhonographService started");
 
             IntentFilter iF = new IntentFilter();
             iF.AddAction("com.android.music.metachanged");
@@ -29,13 +31,14 @@ namespace Phonograph.Droid
             //iF.AddAction("com.android.music.playbackcomplete");
             //iF.AddAction("com.android.music.queuechanged");
 
-            //Android.Media.MediaPlayer mp = new Android.Media.MediaPlayer();
-            //mp.SetOnCompletionListener(new PhonographMediaCompletionListener());
-
             _receiver = _receiver ?? new PhonographServiceGoogleMusicBroadcastReceiver();
             RegisterReceiver(_receiver, iF);
 
             Toast.MakeText(this, "The phonograph service has started", ToastLength.Long).Show();
+        }
+
+        public override StartCommandResult OnStartCommand(Intent intent, StartCommandFlags flags, int startId)
+        {
             return StartCommandResult.Sticky;
         }
 
