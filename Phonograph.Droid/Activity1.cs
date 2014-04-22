@@ -59,12 +59,14 @@ inner join sources s on p.source_id = s.id");
                 TableRow newRow = new TableRow(this);
                 TextView tvTrack = new TextView(this);
                 tvTrack.SetText(p.TrackTitle, TextView.BufferType.Normal);
+                TextView tvArtist = new TextView(this);
+                tvArtist.SetText(p.ArtistName, TextView.BufferType.Normal);
                 TextView tvAlbum = new TextView(this);
-                tvTrack.SetText(p.AlbumTitle, TextView.BufferType.Normal);
+                tvAlbum.SetText(p.AlbumTitle, TextView.BufferType.Normal);
                 TextView tvSource = new TextView(this);
-                tvTrack.SetText(p.SourceName, TextView.BufferType.Normal);
+                tvSource.SetText(p.SourceName, TextView.BufferType.Normal);
                 TextView tvTime = new TextView(this);
-                tvTrack.SetText(p.Time.ToString(), TextView.BufferType.Normal);
+                tvTime.SetText(p.Time.ToString(), TextView.BufferType.Normal);
 
                 playsTable.AddView(tvTrack);
                 playsTable.AddView(tvAlbum);
