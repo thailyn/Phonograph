@@ -68,10 +68,13 @@ inner join sources s on p.source_id = s.id");
                 TextView tvTime = new TextView(this);
                 tvTime.SetText(p.Time.ToString(), TextView.BufferType.Normal);
 
-                playsTable.AddView(tvTrack);
-                playsTable.AddView(tvAlbum);
-                playsTable.AddView(tvSource);
-                playsTable.AddView(tvTime);
+                newRow.AddView(tvTrack);
+                newRow.AddView(tvArtist);
+                newRow.AddView(tvAlbum);
+                newRow.AddView(tvSource);
+                newRow.AddView(tvTime);
+
+                playsTable.AddView(newRow);
             }
 
             button.Click += delegate { button.Text = string.Format("{0} clicks!", count++); };
