@@ -22,10 +22,6 @@ namespace Phonograph.Droid
 
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.Main);
-
-            // Get our button from the layout resource,
-            // and attach an event to it
-            Button button = FindViewById<Button>(Resource.Id.RefreshButton);
             TableLayout playsTable = FindViewById<TableLayout>(Resource.Id.PlaysTable);
 
             string applicationDirectory = System.IO.Path.Combine("/storage", "emulated", "legacy", "Phonograph");
@@ -69,8 +65,6 @@ order by p.time desc");
 
                 playsTable.AddView(newRow);
             }
-
-            button.Click += delegate { button.Text = string.Format("{0} clicks!", count++); };
 
             StartService(new Intent(this, typeof(PhonographService)));
         }
