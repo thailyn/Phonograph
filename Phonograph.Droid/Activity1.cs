@@ -36,20 +36,7 @@ namespace Phonograph.Droid
 
             string databasePath = System.IO.Path.Combine(applicationDirectory, "PlaysDatabase.sqlite3");
             var pdb = new Phonograph.Model.PhonographDatabase(databasePath);
-            /*
-            var plays = from p in pdb.Table<Play>()
-                        join t in pdb.Table<Track>() on p.TrackId equals t.Id
-                        join a in pdb.Table<Album>() on t.AlbumId equals a.Id
-                        join s in pdb.Table<Source>() on p.SourceId equals s.Id
-                        select new
-                        {
-                            p.Id,
-                            TrackTitle = t.Title,
-                            AlbumTitle = a.Title,
-                            SourceName = s.Name,
-                            p.Time
-                        };
-             * */
+
             var plays = pdb.Query<PlaysView>(
 @"select p.id as ""Id"", t.title as ""TrackTitle"", a.title as ""AlbumTitle"",
     ar.name as ""ArtistName"", s.name as ""SourceName"", p.time as ""Time""
