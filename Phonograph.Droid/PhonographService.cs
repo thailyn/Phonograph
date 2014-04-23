@@ -19,7 +19,7 @@ namespace Phonograph.Droid
     class PhonographService : Service
     {
         private IBinder _binder;
-        private PhonographServiceGoogleMusicBroadcastReceiver _receiver;
+        private PhonographServiceGoogleMusicBroadcastReceiver _googleMusicReceiver;
 
         public override void OnCreate()
         {
@@ -27,14 +27,14 @@ namespace Phonograph.Droid
 
             Android.Util.Log.Debug("PhonographService", "PhonographService started");
 
-            IntentFilter iF = new IntentFilter();
-            iF.AddAction("com.android.music.metachanged");
-            iF.AddAction("com.android.music.playstatechanged");
+            IntentFilter googleMusicIntentFilter = new IntentFilter();
+            googleMusicIntentFilter.AddAction("com.android.music.metachanged");
+            googleMusicIntentFilter.AddAction("com.android.music.playstatechanged");
             //iF.AddAction("com.android.music.playbackcomplete");
             //iF.AddAction("com.android.music.queuechanged");
 
-            _receiver = _receiver ?? new PhonographServiceGoogleMusicBroadcastReceiver();
-            RegisterReceiver(_receiver, iF);
+            _googleMusicReceiver = _googleMusicReceiver ?? new PhonographServiceGoogleMusicBroadcastReceiver();
+            RegisterReceiver(_googleMusicReceiver, googleMusicIntentFilter);
 
             Toast.MakeText(this, "The phonograph service has started", ToastLength.Long).Show();
         }
