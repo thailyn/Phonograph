@@ -28,8 +28,13 @@ namespace Phonograph.Droid
             Button button = FindViewById<Button>(Resource.Id.RefreshButton);
             TableLayout playsTable = FindViewById<TableLayout>(Resource.Id.PlaysTable);
 
-            string databasePath = System.IO.Path.Combine(System.Environment.GetFolderPath(
-                System.Environment.SpecialFolder.Personal), "database.db");
+            string applicationDirectory = System.IO.Path.Combine("/storage", "emulated", "legacy", "Phonograph");
+            if (!System.IO.Directory.Exists(applicationDirectory))
+            {
+                System.IO.Directory.CreateDirectory(applicationDirectory);
+            }
+
+            string databasePath = System.IO.Path.Combine(applicationDirectory, "PlaysDatabase.sqlite3");
             var pdb = new Phonograph.Model.PhonographDatabase(databasePath);
             /*
             var plays = from p in pdb.Table<Play>()

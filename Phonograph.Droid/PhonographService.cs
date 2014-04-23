@@ -88,8 +88,13 @@ namespace Phonograph.Droid
             public void RecordPlay(string trackTitle, string albumTitle, string artistName, DateTime timePlayed,
                 string sourceName)
             {
-                string databasePath = System.IO.Path.Combine(System.Environment.GetFolderPath(
-                    System.Environment.SpecialFolder.Personal), "database.db");
+                string applicationDirectory = System.IO.Path.Combine("/storage", "emulated", "legacy", "Phonograph");
+                if (!System.IO.Directory.Exists(applicationDirectory))
+                {
+                    System.IO.Directory.CreateDirectory(applicationDirectory);
+                }
+
+                string databasePath = System.IO.Path.Combine(applicationDirectory, "PlaysDatabase.sqlite3");
                 var pdb = new Phonograph.Model.PhonographDatabase(databasePath);
 
                 Artist artist = null;
