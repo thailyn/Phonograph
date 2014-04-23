@@ -105,7 +105,7 @@ namespace Phonograph.Droid
                             Name = artistName,
                             SortName = artistName
                         };
-                        var id = pdb.Insert(artist);
+                        pdb.Insert(artist);
                     }
                 }
                 catch (SQLite.SQLiteException ex)
@@ -129,7 +129,7 @@ namespace Phonograph.Droid
                             SortTitle = albumTitle,
                             AlbumArtistId = artist.Id
                         };
-                        var id = pdb.Insert(album);
+                        pdb.Insert(album);
                     }
                 }
                 catch (SQLite.SQLiteException ex)
@@ -154,7 +154,7 @@ namespace Phonograph.Droid
                             AlbumId = album.Id,
                             ArtistId = artist.Id
                         };
-                        track.Id = pdb.Insert(track);
+                        pdb.Insert(track);
                     }
                 }
                 catch (SQLite.SQLiteException ex)
@@ -175,7 +175,7 @@ namespace Phonograph.Droid
                         {
                             Name = sourceName,
                         };
-                        source.Id = pdb.Insert(source);
+                        pdb.Insert(source);
                     }
                 }
                 catch (SQLite.SQLiteException ex)
@@ -186,7 +186,7 @@ namespace Phonograph.Droid
 
                 try
                 {
-                    var playId = pdb.Insert(new Play
+                    pdb.Insert(new Play
                     {
                         TrackId = track.Id,
                         SourceId = source.Id,
