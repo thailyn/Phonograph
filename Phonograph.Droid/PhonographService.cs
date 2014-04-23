@@ -228,14 +228,12 @@ namespace Phonograph.Droid
                         currentArtistName, currentAlbumTitle, currentTrackTitle, currentPosition,
                         duration, ((double)currentPosition) / duration, isPlaying);
                     Android.Util.Log.Debug("PHONOGRAPH", message);
-                    Toast.MakeText(context, message, ToastLength.Short).Show();
 
                     if (_currentDuration > 1
                         && (double)_cumulativePlayedTime > (double)_currentDuration * 0.9)
                     {
-                        message = "Would record last play here.";
+                        message = "Recording last track now.";
                         Android.Util.Log.Debug("PHONOGRAPH", message);
-                        Toast.MakeText(context, message, ToastLength.Short).Show();
 
                         RecordPlay(_currentTrackTitle, _currentAlbumTitle, _currentArtistName, DateTime.UtcNow,
                             sourceName);
@@ -245,8 +243,6 @@ namespace Phonograph.Droid
                         message = string.Format("Did not play track long enough before changing. {0} <= {1}",
                             (double)_cumulativePlayedTime, (double)_currentDuration * 0.9);
                         Android.Util.Log.Debug("PHONOGRAPH", message);
-                        Toast.MakeText(context, message,
-                            ToastLength.Short).Show();
                     }
 
                     // Regardless of whether we recorded the play or not, we are in a new
@@ -266,15 +262,13 @@ namespace Phonograph.Droid
                         currentArtistName, currentAlbumTitle, currentTrackTitle, currentPosition,
                         duration, ((double)currentPosition) / duration, isPlaying);
                     Android.Util.Log.Debug("PHONOGRAPH", message);
-                    Toast.MakeText(context, message, ToastLength.Short).Show();
 
                     if (_currentDuration > 1
                         && (double)_cumulativePlayedTime > (double)_currentDuration * 0.9)
                     {
-                        message = string.Format("Would record current track here. {0} > {1}",
+                        message = string.Format("Recording current track now. {0} > {1}",
                             _cumulativePlayedTime, (double)_currentDuration * 0.9);
                         Android.Util.Log.Debug("PHONOGRAPH", message);
-                        Toast.MakeText(context, message, ToastLength.Short).Show();
 
                         RecordPlay(_currentTrackTitle, _currentAlbumTitle, _currentArtistName, DateTime.UtcNow,
                             sourceName);
@@ -286,8 +280,6 @@ namespace Phonograph.Droid
                         message = string.Format("Have not played current track long enough yet. {0} <= {1}",
                             (double)_cumulativePlayedTime, (double)_currentDuration * 0.9);
                         Android.Util.Log.Debug("PHONOGRAPH", message);
-                        Toast.MakeText(context, message,
-                            ToastLength.Short).Show();
                     }
                 }
 
@@ -295,7 +287,6 @@ namespace Phonograph.Droid
                 {
                     message = "Started current elapsed timer.";
                     Android.Util.Log.Debug("PHONOGRAPH", message);
-                    Toast.MakeText(context, message, ToastLength.Short).Show();
 
                     _currentElapsedTimer.Start();
                 }
@@ -304,7 +295,6 @@ namespace Phonograph.Droid
                 {
                     message = "Stopped current elapsed timer.";
                     Android.Util.Log.Debug("PHONOGRAPH", message);
-                    Toast.MakeText(context, message, ToastLength.Short).Show();
 
                     _currentElapsedTimer.Stop();
                 }
@@ -348,10 +338,10 @@ namespace Phonograph.Droid
                     if (bundle != null)
                     {
                         var keys = bundle.KeySet();
-                        Android.Util.Log.Error("PHONOGRAPH", "Dumping Intent Start - " + action);
+                        Android.Util.Log.Debug("PHONOGRAPH", "Dumping Intent Start - " + action);
                         foreach (var key in keys)
                         {
-                            Android.Util.Log.Error("PHONOGRAPH", string.Format("[{0}] - [{1}]", key, bundle.Get(key)));
+                            Android.Util.Log.Debug("PHONOGRAPH", string.Format("[{0}] - [{1}]", key, bundle.Get(key)));
                         }
                     }
                     _dumpedCollections.Add(action);
