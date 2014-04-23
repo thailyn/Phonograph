@@ -207,7 +207,7 @@ namespace Phonograph.Droid
 
             public void UpdateState(Context context, string currentTrackTitle, string currentAlbumTitle,
                 string currentArtistName, long currentPosition, long duration, bool isPlaying, long lastTrackPosition,
-                string sourceName)
+                string sourceName, bool verbose = false)
             {
                 string message;
 
@@ -228,12 +228,14 @@ namespace Phonograph.Droid
                         currentArtistName, currentAlbumTitle, currentTrackTitle, currentPosition,
                         duration, ((double)currentPosition) / duration, isPlaying);
                     Android.Util.Log.Debug("PHONOGRAPH", message);
+                    if (verbose) Toast.MakeText(context, message, ToastLength.Short).Show();
 
                     if (_currentDuration > 1
                         && (double)_cumulativePlayedTime > (double)_currentDuration * 0.9)
                     {
                         message = "Recording last track now.";
                         Android.Util.Log.Debug("PHONOGRAPH", message);
+                        if (verbose) Toast.MakeText(context, message, ToastLength.Short).Show();
 
                         RecordPlay(_currentTrackTitle, _currentAlbumTitle, _currentArtistName, DateTime.UtcNow,
                             sourceName);
@@ -243,6 +245,7 @@ namespace Phonograph.Droid
                         message = string.Format("Did not play track long enough before changing. {0} <= {1}",
                             (double)_cumulativePlayedTime, (double)_currentDuration * 0.9);
                         Android.Util.Log.Debug("PHONOGRAPH", message);
+                        if (verbose) Toast.MakeText(context, message, ToastLength.Short).Show();
                     }
 
                     // Regardless of whether we recorded the play or not, we are in a new
@@ -262,6 +265,7 @@ namespace Phonograph.Droid
                         currentArtistName, currentAlbumTitle, currentTrackTitle, currentPosition,
                         duration, ((double)currentPosition) / duration, isPlaying);
                     Android.Util.Log.Debug("PHONOGRAPH", message);
+                    if (verbose) Toast.MakeText(context, message, ToastLength.Short).Show();
 
                     if (_currentDuration > 1
                         && (double)_cumulativePlayedTime > (double)_currentDuration * 0.9)
@@ -269,6 +273,7 @@ namespace Phonograph.Droid
                         message = string.Format("Recording current track now. {0} > {1}",
                             _cumulativePlayedTime, (double)_currentDuration * 0.9);
                         Android.Util.Log.Debug("PHONOGRAPH", message);
+                        if (verbose) Toast.MakeText(context, message, ToastLength.Short).Show();
 
                         RecordPlay(_currentTrackTitle, _currentAlbumTitle, _currentArtistName, DateTime.UtcNow,
                             sourceName);
@@ -280,6 +285,7 @@ namespace Phonograph.Droid
                         message = string.Format("Have not played current track long enough yet. {0} <= {1}",
                             (double)_cumulativePlayedTime, (double)_currentDuration * 0.9);
                         Android.Util.Log.Debug("PHONOGRAPH", message);
+                        if (verbose) Toast.MakeText(context, message, ToastLength.Short).Show();
                     }
                 }
 
@@ -287,6 +293,7 @@ namespace Phonograph.Droid
                 {
                     message = "Started current elapsed timer.";
                     Android.Util.Log.Debug("PHONOGRAPH", message);
+                    if (verbose) Toast.MakeText(context, message, ToastLength.Short).Show();
 
                     _currentElapsedTimer.Start();
                 }
@@ -295,6 +302,7 @@ namespace Phonograph.Droid
                 {
                     message = "Stopped current elapsed timer.";
                     Android.Util.Log.Debug("PHONOGRAPH", message);
+                    if (verbose) Toast.MakeText(context, message, ToastLength.Short).Show();
 
                     _currentElapsedTimer.Stop();
                 }
