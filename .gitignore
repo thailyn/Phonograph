@@ -6,3 +6,5 @@ bin/
 obj/
 x64/
 x86/
+*.apk
+*.userprefs
