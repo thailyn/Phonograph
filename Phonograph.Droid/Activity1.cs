@@ -41,7 +41,8 @@ inner join tracks t on p.track_id = t.id
 inner join albums a on t.album_id = a.id
 inner join artists ar on t.artist_id = ar.id
 inner join sources s on p.source_id = s.id
-order by p.time desc");
+order by p.time desc
+limit 200");
 
             foreach(var p in plays)
             {
