@@ -477,12 +477,6 @@ namespace Phonograph.Droid
             string _source = "Rocket Player";
             List<string> _dumpedCollections = new List<string>();
 
-            private string _newArtistName;
-            private string _newAlbumTitle;
-            private string _newTrackTitle;
-            private long _newTrackLength;
-            private bool _lastKnownPlaybackState;
-
             public PhonographServiceRocketPlayerBroadcastReceiver()
                 : base()
             {
