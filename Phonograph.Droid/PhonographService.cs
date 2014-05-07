@@ -21,6 +21,7 @@ namespace Phonograph.Droid
         private IBinder _binder;
         private PhonographServiceGoogleMusicBroadcastReceiver _googleMusicReceiver;
         private PhonographServiceSpotifyBroadcastReceiver _spotifyMusicReceiver;
+        private PhonographServiceRocketPlayerBroadcastReceiver _rocketPlayerMusicReceiver;
 
         public override void OnCreate()
         {
@@ -42,6 +43,12 @@ namespace Phonograph.Droid
             spotifyMusicIntentFilter.AddAction("com.spotify.mobile.android.playbackstatechanged");
             _spotifyMusicReceiver = _spotifyMusicReceiver ?? new PhonographServiceSpotifyBroadcastReceiver();
             RegisterReceiver(_spotifyMusicReceiver, spotifyMusicIntentFilter);
+
+            IntentFilter rocketPlayerMusicIntentFilter = new IntentFilter();
+            rocketPlayerMusicIntentFilter.AddAction("com.jrtstudio.AnotherMusicPlayer.metachanged");
+            rocketPlayerMusicIntentFilter.AddAction("com.jrtstudio.AnotherMusicPlayer.playstatechanged");
+            _rocketPlayerMusicReceiver = _rocketPlayerMusicReceiver ?? new PhonographServiceRocketPlayerBroadcastReceiver();
+            RegisterReceiver(_rocketPlayerMusicReceiver, rocketPlayerMusicIntentFilter);
 
             Toast.MakeText(this, "The phonograph service has started", ToastLength.Long).Show();
         }
@@ -462,6 +469,54 @@ namespace Phonograph.Droid
                     UpdateState(context, _newTrackTitle, _newAlbumTitle, _newArtistName, position, _newTrackLength,
                         isPlaying, -1, _source, false);
                 }
+            }
+        }
+
+        public class PhonographServiceRocketPlayerBroadcastReceiver : PhonographServiceBaseBroadcastReceiver
+        {
+            string _source = "Rocket Player";
+            List<string> _dumpedCollections = new List<string>();
+
+            private string _newArtistName;
+            private string _newAlbumTitle;
+            private string _newTrackTitle;
+            private long _newTrackLength;
+            private bool _lastKnownPlaybackState;
+
+            public PhonographServiceRocketPlayerBroadcastReceiver()
+                : base()
+            {
+
+            }
+
+            public override void OnReceive(Context context, Intent intent)
+            {
+                String action = intent.GetStringExtra("track");
+                if (!string.IsNullOrWhiteSpace(action) && !_dumpedCollections.Contains(action))
+                {
+                    Bundle bundle = intent.Extras;
+                    if (bundle != null)
+                    {
+                        var keys = bundle.KeySet();
+                        Android.Util.Log.Debug("PHONOGRAPH", "Rocket Player - Dumping Intent Start - " + action);
+                        foreach (var key in keys)
+                        {
+                            Android.Util.Log.Debug("PHONOGRAPH", string.Format("[{0}] - [{1}]", key, bundle.Get(key)));
+                        }
+                    }
+                    _dumpedCollections.Add(action);
+                }
+
+                String artist = intent.GetStringExtra("artist");
+                String album = intent.GetStringExtra("album");
+                String track = intent.GetStringExtra("track");
+                long length = intent.GetLongExtra("length", (long) -1);
+                bool isPlaying = intent.GetBooleanExtra("playing", false);
+
+                Toast.MakeText(context, string.Format("Rocket Player action ({0}): {1}, {2}, {3}, {4}, {5}",
+                    intent.Action, artist, album, track, length, isPlaying), ToastLength.Long).Show();
+
+                UpdateState(context, track, album, artist, 0, length, isPlaying, -1, _source, true);
             }
         }
     }
