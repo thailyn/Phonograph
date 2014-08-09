@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Android.Content;
 using Android.OS;
+using Android.Widget;
 
 namespace Phonograph.Droid.BroadcastReceivers
 {
@@ -25,7 +26,7 @@ namespace Phonograph.Droid.BroadcastReceivers
         public PhonographServiceGoogleMusicBroadcastReceiver()
             : base()
         {
-
+            _verbose = false;
         }
 
         public override void OnReceive(Context context, Intent intent)
@@ -69,11 +70,14 @@ namespace Phonograph.Droid.BroadcastReceivers
                 position = 0;
             }
 
-            //Toast.MakeText(context, string.Format("{0}: {1}, {2}, {3}, {4}/{5}, {6}",
-            //    action, artist, album, track, position, duration, isPlaying), ToastLength.Long).Show();
+            if (_verbose)
+            {
+                Toast.MakeText (context, string.Format ("{0}: {1}, {2}, {3}, {4}/{5}, {6}",
+                    action, artist, album, track, position, duration, isPlaying), ToastLength.Long).Show ();
+            }
 
             UpdateState(context, track, album, artist, position, duration, isPlaying, lastTrackPosition,
-                _source);
+                _source, _verbose);
         }
     }
 }

@@ -8,13 +8,13 @@ namespace Phonograph.Droid.BroadcastReceivers
 {
     public class PhonographServiceRocketPlayerBroadcastReceiver : PhonographServiceBaseBroadcastReceiver
     {
-        string _source = "Rocket Player";
-        List<string> _dumpedCollections = new List<string>();
+        private string _source = "Rocket Player";
+        private List<string> _dumpedCollections = new List<string>();
 
         public PhonographServiceRocketPlayerBroadcastReceiver()
             : base()
         {
-
+            _verbose = false;
         }
 
         public override void OnReceive(Context context, Intent intent)
@@ -41,10 +41,13 @@ namespace Phonograph.Droid.BroadcastReceivers
             long length = intent.GetLongExtra("length", (long) -1);
             bool isPlaying = intent.GetBooleanExtra("playing", false);
 
-            Toast.MakeText(context, string.Format("Rocket Player action ({0}): {1}, {2}, {3}, {4}, {5}",
-                intent.Action, artist, album, track, length, isPlaying), ToastLength.Long).Show();
+            if (_verbose)
+            {
+                Toast.MakeText (context, string.Format ("Rocket Player action ({0}): {1}, {2}, {3}, {4}, {5}",
+                    intent.Action, artist, album, track, length, isPlaying), ToastLength.Long).Show ();
+            }
 
-            UpdateState(context, track, album, artist, 0, length, isPlaying, -1, _source, true);
+            UpdateState(context, track, album, artist, 0, length, isPlaying, -1, _source, _verbose);
         }
     }
 }

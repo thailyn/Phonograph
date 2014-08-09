@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Android.Content;
 using Android.OS;
+using Android.Widget;
 
 namespace Phonograph.Droid.BroadcastReceivers
 {
@@ -19,7 +20,7 @@ namespace Phonograph.Droid.BroadcastReceivers
         public PhonographServiceSpotifyBroadcastReceiver()
             : base()
         {
-
+            _verbose = false;
         }
 
         public override void OnReceive(Context context, Intent intent)
@@ -56,8 +57,11 @@ namespace Phonograph.Droid.BroadcastReceivers
                     _newTrackTitle = track;
                     _newTrackLength = length;
 
-                    //Toast.MakeText(context, string.Format("Spotify meta changed: {0}, {1}, {2}, {3}",
-                    //    artist, album, track, length), ToastLength.Long).Show();
+                    if (_verbose)
+                    {
+                        Toast.MakeText (context, string.Format ("Spotify meta changed: {0}, {1}, {2}, {3}",
+                            artist, album, track, length), ToastLength.Long).Show ();
+                    }
 
                     UpdateState(context, _newTrackTitle, _newAlbumTitle, _newArtistName, 0, _newTrackLength,
                         _lastKnownPlaybackState, -1, _source, false);
@@ -70,11 +74,14 @@ namespace Phonograph.Droid.BroadcastReceivers
                 bool isPlaying = intent.GetBooleanExtra("playing", false);
                 _lastKnownPlaybackState = isPlaying;
 
-                //Toast.MakeText(context, string.Format("Spotify playback state changed: {0}, {1}",
-                //    position, isPlaying), ToastLength.Long).Show();
+                if (_verbose)
+                {
+                    Toast.MakeText (context, string.Format ("Spotify playback state changed: {0}, {1}",
+                        position, isPlaying), ToastLength.Long).Show ();
+                }
 
                 UpdateState(context, _newTrackTitle, _newAlbumTitle, _newArtistName, position, _newTrackLength,
-                    isPlaying, -1, _source, false);
+                    isPlaying, -1, _source, _verbose);
             }
         }
     }

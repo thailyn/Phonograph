@@ -7,6 +7,7 @@ namespace Phonograph.Droid.BroadcastReceivers
 {
     public abstract class PhonographServiceBaseBroadcastReceiver : BroadcastReceiver
     {
+        protected bool _verbose;
         protected string _currentTrackTitle;
         protected string _currentAlbumTitle;
         protected string _currentArtistName;
