@@ -14,8 +14,6 @@ namespace Phonograph.Droid
     [Activity(Label = "Phonograph.Android", MainLauncher = true, Icon = "@drawable/icon")]
     public class Activity1 : Activity
     {
-        int count = 1;
-
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
