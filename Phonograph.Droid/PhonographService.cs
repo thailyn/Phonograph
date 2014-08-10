@@ -40,8 +40,8 @@ namespace Phonograph.Droid
             RegisterReceiver(_googleMusicReceiver, googleMusicIntentFilter);
 
             IntentFilter spotifyMusicIntentFilter = new IntentFilter();
-            spotifyMusicIntentFilter.AddAction("com.spotify.mobile.android.metadatachanged");
-            spotifyMusicIntentFilter.AddAction("com.spotify.mobile.android.playbackstatechanged");
+            spotifyMusicIntentFilter.AddAction("com.spotify.music.metadatachanged");
+            spotifyMusicIntentFilter.AddAction("com.spotify.music.playbackstatechanged");
             _spotifyMusicReceiver = _spotifyMusicReceiver ?? new PhonographServiceSpotifyBroadcastReceiver();
             RegisterReceiver(_spotifyMusicReceiver, spotifyMusicIntentFilter);
 

@@ -20,7 +20,7 @@ namespace Phonograph.Droid.BroadcastReceivers
         public PhonographServiceSpotifyBroadcastReceiver()
             : base()
         {
-            _verbose = false;
+            _verbose = true;
         }
 
         public override void OnReceive(Context context, Intent intent)
@@ -41,7 +41,7 @@ namespace Phonograph.Droid.BroadcastReceivers
                 _dumpedCollections.Add(action);
             }
 
-            if (intent.Action.Equals("com.spotify.mobile.android.metadatachanged"))
+            if (intent.Action.Equals("com.spotify.music.metadatachanged"))
             {
                 String artist = intent.GetStringExtra("artist");
                 String album = intent.GetStringExtra("album");
@@ -64,11 +64,11 @@ namespace Phonograph.Droid.BroadcastReceivers
                     }
 
                     UpdateState(context, _newTrackTitle, _newAlbumTitle, _newArtistName, 0, _newTrackLength,
-                        _lastKnownPlaybackState, -1, _source, false);
+                        _lastKnownPlaybackState, -1, _source, _verbose);
 
                 }
             }
-            else if (intent.Action.Equals("com.spotify.mobile.android.playbackstatechanged"))
+            else if (intent.Action.Equals("com.spotify.music.playbackstatechanged"))
             {
                 long position = intent.GetIntExtra("playbackPosition", -1);
                 bool isPlaying = intent.GetBooleanExtra("playing", false);
