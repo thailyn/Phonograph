@@ -33,17 +33,18 @@ namespace Phonograph.Droid.BroadcastReceivers
         {
             //String action = intent.Action;
             String action = intent.GetStringExtra("track");
-            if (!string.IsNullOrWhiteSpace(action) && !_dumpedCollections.Contains(action))
+            //if (!string.IsNullOrWhiteSpace(action) && !_dumpedCollections.Contains(action))
                 //if (!string.IsNullOrWhiteSpace(action))
             {
                 Bundle bundle = intent.Extras;
                 if (bundle != null)
                 {
                     var keys = bundle.KeySet();
-                    Android.Util.Log.Debug("PHONOGRAPH", "Dumping Intent Start - " + action);
+                    Android.Util.Log.Debug("PHONOGRAPH", "Google Music - Dumping Intent Start - " + intent.Action);
                     foreach (var key in keys)
                     {
-                        Android.Util.Log.Debug("PHONOGRAPH", string.Format("[{0}] - [{1}]", key, bundle.Get(key)));
+                        Android.Util.Log.Debug("PHONOGRAPH", string.Format("[{0}] - [{1}] ({2})", key, bundle.Get(key),
+                            bundle.Get(key).GetType()));
                     }
                 }
                 _dumpedCollections.Add(action);

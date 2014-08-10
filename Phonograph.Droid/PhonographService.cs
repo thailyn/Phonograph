@@ -23,6 +23,7 @@ namespace Phonograph.Droid
         private PhonographServiceGoogleMusicBroadcastReceiver _googleMusicReceiver;
         private PhonographServiceSpotifyBroadcastReceiver _spotifyMusicReceiver;
         private PhonographServiceRocketPlayerBroadcastReceiver _rocketPlayerMusicReceiver;
+        private PhonographServicePocketCastsBroadcastReceiver _pocketCastsMusicReceiver;
 
         public override void OnCreate()
         {
@@ -50,6 +51,16 @@ namespace Phonograph.Droid
             rocketPlayerMusicIntentFilter.AddAction("com.jrtstudio.AnotherMusicPlayer.playstatechanged");
             _rocketPlayerMusicReceiver = _rocketPlayerMusicReceiver ?? new PhonographServiceRocketPlayerBroadcastReceiver();
             RegisterReceiver(_rocketPlayerMusicReceiver, rocketPlayerMusicIntentFilter);
+
+            // This is never actually called, as Pocket Casts uses the "default" intents,
+            // so the Google Music broadcast receiver handles this app's intents.
+            // Unfortunately, it always indicats that "playing" is false, so episodes are
+            // never recorded.
+            IntentFilter pocketCastsMusicIntentFilter = new IntentFilter ();
+            pocketCastsMusicIntentFilter.AddAction("au.com.shiftyjelly.pocketcasts.metachanged");
+            pocketCastsMusicIntentFilter.AddAction("au.com.shiftyjelly.pocketcasts.playstatechanged");
+            _pocketCastsMusicReceiver = _pocketCastsMusicReceiver ?? new PhonographServicePocketCastsBroadcastReceiver ();
+            RegisterReceiver(_pocketCastsMusicReceiver, pocketCastsMusicIntentFilter);
 
             Toast.MakeText(this, "The phonograph service has started", ToastLength.Long).Show();
         }

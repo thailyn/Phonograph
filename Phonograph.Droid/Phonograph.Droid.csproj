@@ -80,6 +80,7 @@
     <Compile Include="BroadcastReceivers\PhonographServiceGoogleMusicBroadcastReceiver.cs" />
     <Compile Include="BroadcastReceivers\PhonographServiceSpotifyBroadcastReceiver.cs" />
     <Compile Include="BroadcastReceivers\PhonographServiceRocketPlayerBroadcastReceiver.cs" />
+    <Compile Include="BroadcastReceivers\PhonographServicePocketCastsBroadcastReceiver.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

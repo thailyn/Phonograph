@@ -20,7 +20,7 @@ namespace Phonograph.Droid.BroadcastReceivers
         public PhonographServiceSpotifyBroadcastReceiver()
             : base()
         {
-            _verbose = true;
+            _verbose = false;
         }
 
         public override void OnReceive(Context context, Intent intent)
